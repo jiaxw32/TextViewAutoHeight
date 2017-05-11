@@ -1,0 +1,2 @@
+# TextViewAutoHeight
+一个TextView高度随输入内容自动调整的Demo，类似聊天软件的输入框，分别基于AutoLayout和Masonry实现
