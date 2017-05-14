@@ -76,7 +76,7 @@
         v;
     });
     [self.textView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(textContentView).insets(UIEdgeInsetsMake(8, 6, 8, 100));
+        make.edges.equalTo(textContentView).insets(UIEdgeInsetsMake(kTextViewContentVMargin, 6, kTextViewContentVMargin, 100));
     }];
 }
 
@@ -114,28 +114,17 @@
 
 - (void)textViewDidChange:(UITextView *)textView{
     CGFloat height = textView.contentSize.height + kTextViewTopInset;
+    CGFloat textContentViewHeight;
     if (height <= kTextViewMinHeight) {
-        [self.textView mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.height.mas_equalTo(kTextViewMinHeight);
-        }];
-        [self.textContentView mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.height.mas_equalTo(kTextViewMinHeight + 8 * 2);
-        }];
+        textContentViewHeight = kTextViewMinHeight + kTextViewContentVMargin * 2;
     } else if (height > kTextViewMaxHeight){
-        [self.textView mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.height.mas_equalTo(kTextViewMaxHeight);
-        }];
-        [self.textContentView mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.height.mas_equalTo(kTextViewMaxHeight + 8 * 2);
-        }];
+        textContentViewHeight = kTextViewMaxHeight + kTextViewContentVMargin * 2;
     } else {
-        [self.textView mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.height.mas_equalTo(height);
-        }];
-        [self.textContentView mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.height.mas_equalTo(height + 8 * 2);
-        }];
+        textContentViewHeight = height + kTextViewContentVMargin * 2;
     }
+    [self.textContentView mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.height.mas_equalTo(textContentViewHeight);
+    }];
     [UIView animateWithDuration:0.3f animations:^{
         [self.textContentView.superview layoutIfNeeded];
     } completion:nil];

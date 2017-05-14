@@ -14,7 +14,6 @@
 @property (weak, nonatomic) IBOutlet UITextView *textView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *textViewBottomConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *textContentViewHeightConstraint;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *textViewHeightConstraint;
 @property (strong, nonatomic) IBOutlet UITapGestureRecognizer *tapGesture;
 
 @end
@@ -79,14 +78,11 @@
 - (void)textViewDidChange:(UITextView *)textView{
     CGFloat height = textView.contentSize.height + kTextViewTopInset;
     if (height <= kTextViewMinHeight) {
-        self.textViewHeightConstraint.constant = kTextViewMinHeight;
-        self.textContentViewHeightConstraint.constant = kTextViewMinHeight + 8 * 2;
+        self.textContentViewHeightConstraint.constant = kTextViewMinHeight + kTextViewContentVMargin * 2;
     } else if (height > kTextViewMaxHeight){
-        self.textViewHeightConstraint.constant = kTextViewMaxHeight;
-        self.textContentViewHeightConstraint.constant = kTextViewMaxHeight + 8 * 2;
+        self.textContentViewHeightConstraint.constant = kTextViewMaxHeight + kTextViewContentVMargin * 2;
     } else {
-        self.textViewHeightConstraint.constant = height;
-        self.textContentViewHeightConstraint.constant = height + 8 * 2;
+        self.textContentViewHeightConstraint.constant = height + kTextViewContentVMargin * 2;
     }
     [UIView animateWithDuration:0.3f animations:^{
         [self.textContentView.superview layoutIfNeeded];
